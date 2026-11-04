@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="container-fluid py-3 text-center magic position-fixed top-0 z-1 shadow">
+        <div class="h3 mb-0">Wizarding Archive</div>
+        <div class="magic-subtitle">Characters of the Wizarding World</div>
+    </div>
+
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col">
+                <a href="index.html" id="backlink">
+                    <div class="btn btn-outline-secondary mt-3">Back to list</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4 mb-5">
+        <div class="card shadow rounded-5 p-4 p-md-5 bg-dark bg-opacity-75 text-white">
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-12 col-md-5 text-center rounded-4 p-3">
+
+                    <div id="imageContainer" class="mx-auto rounded-4 p-3" style="max-width: 300px; height: 350px;">
+
+                        <img src="" id="image" class="w-100 h-100 rounded-4" style="object-fit: contain;"
+                            alt="Character Image">
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-md-7 text-center text-md-start">
+
+                    <p class="text-warning mb-2">CHARACTER PROFILE</p>
+
+                    <h2 class="fw-bold mb-3" id="name">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </h2>
+
+                    <hr>
+
+                    <div class="mt-4">
+                        <p class="text-secondary mb-1">Hogwarts House</p>
+                        <span id="house" class="badge rounded-pill px-4 py-2"></span>
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="text-secondary mb-1">Portrayed By</p>
+                        <h5 id="actor">Unknown Actor</h5>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script>
+        function capitalizeFirstLetter(str) {
+            if (!str) return str;
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        var elName = document.getElementById("name");
+        var elImage = document.getElementById("image");
+        var elHouse = document.getElementById("house");
+        var elImageContainer = document.getElementById("imageContainer");
+        var elBacklink = document.getElementById("backlink");
+        var elActor = document.getElementById("actor");
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id = urlParams.get('index');
+        const page = urlParams.get('page');
+        const value = urlParams.get('value') || "";
+
+        if (page != null) {
+            elBacklink.href = "index.html?page=" + page + "&value=" + encodeURIComponent(value);
+        }
+
+        const getCharacters = async () => {
+            elName.innerHTML = "Loading " + id;
+            elImage.src = "";
+            elHouse.innerHTML = "";
+
+            const response = await fetch('https://potterapi-fedeperin.vercel.app/en/characters');
+            var allCharacters = await response.json();
+
+            var character = allCharacters.find(c => c.index === parseInt(id));
+
+            if (!character) {
+                elName.innerHTML = "Character not found";
+                return;
+            }
+
+            var image = character.image || "";
+            var name = character.fullName || "Unknown";
+            var house = character.hogwartsHouse || "Unknown House";
+            elName.innerHTML = capitalizeFirstLetter(name);
+            elHouse.innerHTML = capitalizeFirstLetter(house);
+            elImage.src = image || "https://via.placeholder.com/300x300?text=No+Image";
+
+            var actor = character.interpretedBy || "Unknown Actor";
+
+            elActor.innerHTML = actor;
+        }
+
+        if (id != null) {
+            getCharacters();
+        }
+    </script>
+
+    <footer class="bg-dark bg-opacity-75 text-white text-center py-3 mt-auto">
+        &copy; 2026 Wizarding Archive. All rights reserved.
+</body>
+
+</html>

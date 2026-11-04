@@ -9,7 +9,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 
-    height: 400px;
+    height: 550px;
 }
 
 .search-section {
@@ -21,4 +21,82 @@ body {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
+}
+
+body {
+    background: radial-gradient(ellipse at top, #1b2340 0%, #0a0e1a 65%);
+    background-attachment: fixed;
+}
+
+.card-title,
+.h3 {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+}
+
+.magic-card {
+    --glow: 212, 175, 55; 
+    border: 1px solid rgba(var(--glow), 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.magic-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px rgba(var(--glow), 0.5) !important; 
+}
+
+.magic-card .card-img-top {
+    border: 2px solid rgba(var(--glow), 0.6);
+    background: #000;
+    filter: sepia(0.25);
+    transition: filter 0.3s ease;
+}
+
+.magic-card:hover .card-img-top {
+    filter: sepia(0);
+}
+
+.magic-card[data-house="Gryffindor"] { --glow: 220, 60, 50; }
+.magic-card[data-house="Slytherin"]  { --glow: 42, 170, 90; }
+.magic-card[data-house="Hufflepuff"] { --glow: 255, 200, 0; }
+.magic-card[data-house="Ravenclaw"]  { --glow: 60, 120, 230; }
+
+.magic {
+    background: linear-gradient(180deg, #05070f 0%, #0d1326 100%);
+    border-bottom: 1px solid;
+    border-image: linear-gradient(90deg, transparent, #d4af37, transparent) 1;
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.15);
+}
+
+.magic .h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #b8860b, #ffe27a, #b8860b);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+    animation: shimmer 4s linear infinite;
+}
+
+#imageContainer {
+    background: linear-gradient(145deg, #151d35, #080c18);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+#image {
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
+}
+
+#name {
+    font-family: 'Cinzel', serif;
+    color: #ffe27a;
+}
+
+#house {
+    border: 1px solid #d4af37;
+    background: #151d35;
+    color: #ffe27a;
 }
